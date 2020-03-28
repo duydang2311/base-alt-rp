@@ -28,36 +28,50 @@ Happy Pawning!
 
 ## Installation
 
-Simply install to your project:
+Just clone this repository and use
 
-```bash
-sampctl package install duydang2311/alt-rp
-```
+[sampctl](https://github.com/Southclaws/sampctl) is recommended. Without [sampctl](https://github.com/Southclaws/sampctl), you have to change the paths to the modules in the gamemode
 
-Include in your code and begin using the library:
+## Dependencies
 
-```pawn
-#include <alt-rp>
-```
+- sampctl/samp-stdlib
 
-## Usage
+- IllidanS4/PawnPlus:v1.2.1
 
-<!--
-Write your code documentation or examples here. If your library is documented in
-the source code, direct users there. If not, list your API and describe it well
-in this section. If your library is passive and has no API, simply omit this
-section.
--->
+- pawn-lang/YSI-Includes@5.x
 
-## Testing
+- pawn-lang/YSI-Includes
 
-<!--
-Depending on whether your package is tested via in-game "demo tests" or
-y_testing unit-tests, you should indicate to readers what to expect below here.
--->
+- Open-GTO/zmessage:v3.2.1
 
-To test, simply run the package:
+- pBlueG/SA-MP-MySQL:R41-4
 
-```bash
-sampctl package run
-```
+- Southclaws/pawn-uuid:1.0.1
+
+- lassir/bcrypt-samp:v2.2.4
+
+- maddinat0r/sscanf:v2.8.3
+
+- bmisiak/samp-precise-timers:v2.0.0
+
+- urShadow/Pawn.CMD:3.2.0
+
+- kristoisberg/samp-gps-plugin:1.4.0
+
+- IllidanS4/LFN:v1.0
+
+- samp-incognito/samp-streamer-plugin:v2.9.4
+
+## Information
+
+This is a base for a roleplay gamemode, not a fully functional gamemode.
+
+Systems:
+
+- Account
+
+- Character
+
+- Vehicle
+
+- Portal
