@@ -72,6 +72,10 @@ Systems:
 
 - Character
 
+- Item
+
+- Inventory
+
 - Vehicle
 
 - Portal
