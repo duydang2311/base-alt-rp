@@ -91,3 +91,7 @@ Systems:
 - Vehicle
 
 - Portal
+
+## Setup tutorial
+
+[Video](https://www.youtube.com/watch?v=pzIqcXfDKr0)
