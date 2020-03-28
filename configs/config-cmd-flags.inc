@@ -1,0 +1,8 @@
+enum _:e_CMD_FLAGS
+{
+    CMD_FLAG_ADMIN_1 = 1,
+    CMD_FLAG_ADMIN_2,
+    CMD_FLAG_ADMIN_3,
+    CMD_FLAG_ADMIN_4,
+    CMD_FLAG_ADMIN_5
+}

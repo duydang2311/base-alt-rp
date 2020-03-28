@@ -1,0 +1,28 @@
+Logger:
+  plugins/log-plugin:
+    Append: false # deletes the plugin log file on server startup
+  main:
+    LogLevel:
+      - Fatal
+      - Error
+      - Warning
+      - Info
+  player/main:
+    LogLevel: All
+  player/money:
+    LogLevel:
+      - Error
+      - Warning
+  system:
+    LogLevel: None
+  samp-server: # see "Server console redirection" down below
+    LogLevel: All
+LogLevel:
+  Fatal:
+    PrintToConsole: true
+  Error:
+    PrintToConsole: true
+  Warning:
+    PrintToConsole: true
+EnableColors: true
+LogTimeFormat: '%y/%m/%d %H:%M:%S'
