@@ -64,13 +64,7 @@ Just clone this repository and use
 
 ## Usage
 
-Create a mysql connection with the following informations:
-
-- Database name: alt-rp
-
-- Password: 123456
-
-Or you can change those at [mysql.inc](https://github.com/duydang2311/base-alt-rp/blob/master/modules/mysql/mysql.inc)
+Create a mysql connection and database with the following informations at [mysql.inc](https://github.com/duydang2311/base-alt-rp/blob/master/modules/mysql/mysql.inc)
 
 Then, imports the item's database (item.sql).
 
