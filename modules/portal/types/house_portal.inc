@@ -1,10 +1,13 @@
 static enum _:E_HOUSE_PORTAL_DATA
 {
     hpotl_Id, // index of the portal in portal list
-    hpotl_House_UUID
+    hpotl_House_UUID[UUID_LEN]
 }
 
 static List:housePortals;
+
+forward House_Create();
+forward bool:House_Destroy(const index);
 
 stock Task:HousePortal_Create(const house_uuid[], const size = UUID_LEN)
 {
@@ -46,8 +49,31 @@ stock Task:HousePortal_Create(const house_uuid[], const size = UUID_LEN)
     return Task:0;
 }
 
-stock HousePortal_Destroy(const index)
-{
+stock bool:HousePortal_Destroy(const index)
+{   
+    if(index < 0 || index >= list_size(housePortals))
+    {
+        return false;
+    }
+    
+    new house_portal[E_HOUSE_PORTAL_DATA];
+    if(list_get_arr_safe(housePortals, index, house_portal))
+    {
+        Portal_DestroyByIndex(house_portal[hpotl_Id]);
+        
+        list_remove_deep(housePortals, index);
+        return true;
+    }
+    return false;
+}
+
+stock bool:HousePortal_DestroyByPortalIdx(const index)
+{   
+    if(index < 0 || index >= Portal_GetSize())
+    {
+        return false;
+    }
+    
     new house_portal[E_HOUSE_PORTAL_DATA];
     for(new Iter:i = list_iter(housePortals); iter_inside(i); iter_move_next(i))
     {
@@ -56,11 +82,42 @@ stock HousePortal_Destroy(const index)
             if(house_portal[hpotl_Id] == index)
             {
                 iter_erase_deep(i);
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
+}
+
+stock HousePortal_DestroyByHouseUUID(const house_uuid[])
+{
+    new house_portal[E_HOUSE_PORTAL_DATA],
+        count = 0;
+    for(new Iter:i = list_iter(housePortals); iter_inside(i);)
+    {
+        if(iter_get_arr_safe(i, house_portal))
+        {
+            if(isnull(house_portal[hpotl_House_UUID]))
+            {
+                iter_move_next(i);
+                continue;
+            }
+            
+            if(!strcmp(house_portal[hpotl_House_UUID], house_uuid))
+            {
+                Portal_DestroyByIndex(house_portal[hpotl_Id]);
+                count++;
+
+                iter_erase_deep(i);
+            }
+            else
+            {
+                iter_move_next(i);
+                continue;
+            }
+        }
+    }
+    return count;
 }
 
 #include <YSI_Coding\y_hooks>

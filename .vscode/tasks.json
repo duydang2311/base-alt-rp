@@ -17,6 +17,30 @@
             "problemMatcher": "$sampctl"
         },
         {
+            "label": "build dev",
+            "type": "shell",
+            "command": "sampctl package build dev",
+            "group": "build",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": "$sampctl"
+        },
+        {
+            "label": "build prod",
+            "type": "shell",
+            "command": "sampctl package build prod",
+            "group": "build",
+            "isBackground": true,
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated"
+            },
+            "problemMatcher": "$sampctl"
+        },
+        {
             "label": "build watcher",
             "type": "shell",
             "command": "sampctl package build --watch",

@@ -126,3 +126,44 @@ stock Utils_GetVehicleRelativePos(vehicleid, &Float:x, &Float:y, &Float:z, Float
     z = zoff + z;
 	return 1;
 }
+
+stock Utils_GetObjectAttachmentOffset(objectid, vehicleid, &Float:att_x, &Float:att_y, &Float:att_z, &Float:att_rx, &Float:att_ry, &Float:att_rz)
+{
+	new Float:v_x, Float:v_y, Float:v_z, Float:v_rz,
+	Float:o_x, Float:o_y, Float:o_z, Float:o_rx, Float:o_ry, Float:o_rz;
+
+	GetVehiclePos(vehicleid, v_x, v_y, v_z);
+	GetVehicleZAngle(vehicleid, v_rz);
+
+	GetObjectPos(objectid, o_x, o_y, o_z);
+	GetObjectRot(objectid, o_rx, o_ry, o_rz);
+
+	new Float:o_distance = VectorSize(v_x - o_x, v_y - o_y, 0.0), // Calculate the X/Y distance from the vehicle to the object so we can place it again in the new direction
+		Float:o_angle = (atan2(o_y - v_y, o_x - v_x) - 90.0) - v_rz; // Get the object's angle relative to the vehicle's angle
+
+	o_x = v_x + o_distance * floatsin(-o_angle, degrees); // Rotate the object position by the difference calculated above (o_angle)
+	o_y = v_y + o_distance * floatcos(-o_angle, degrees);
+
+	o_rz -= v_rz; // Adjust the Z angle of the object to face the original direction (rotate it by the opposite of the vehicle's angle)
+
+	att_x = o_x - v_x;
+	att_y = o_y - v_y;
+	att_z = o_z - v_z;
+
+	att_rx = o_rx;
+	att_ry = o_ry;
+	att_rz = o_rz;
+
+	return 1;
+}
+
+stock Utils_RGBA(color, &rr, &gg, &bb, &aa) {
+	rr = color >>> 24;
+	gg = (color >>> 16) & 0xFF;
+	bb = (color >>> 8) & 0xFF;
+	aa = color & 0xFF;
+}
+
+stock Utils_Hex(&color, rr, gg, bb, aa) {
+	color = (aa & 0xFF) | ((bb & 0xFF) << 8) | ((gg & 0xFF) << 16) | (rr << 24);
+}

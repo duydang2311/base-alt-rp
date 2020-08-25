@@ -8,6 +8,7 @@
 #include <pp-mysql>
 #include <Pawn.CMD>
 #include <samp-precise-timers>
+#include <YSF>
 
 #include <config-character-spawn-types>
 #include <config-cmd-flags>
@@ -239,7 +240,7 @@ stock Inventory_Show(const playerid, page = 0)
         PlayerTextDrawBoxColor(playerid, TD_Inventory_Container[playerid], 135);
         PlayerTextDrawUseBox(playerid, TD_Inventory_Container[playerid], 1);
         PlayerTextDrawSetProportional(playerid, TD_Inventory_Container[playerid], 1);
-        PlayerTextDrawSetSelectable(playerid, TD_Inventory_Container[playerid], 0);
+        PlayerTextDrawSetSelectable(playerid, TD_Inventory_Container[playerid], 1);
     }
 
     if(TD_Inventory_Page_Container[playerid] == PlayerText:INVALID_TEXT_DRAW)
@@ -299,22 +300,9 @@ stock Inventory_Show(const playerid, page = 0)
         items[E_CHARACTER_INVENTORY_DATA],
         index = 0,
         text_page[12];
-    
-    /*new Float:divide = floatround(size) / floatMAX_INVENTORY_ITEMS_PER_PAGE;
-    new rounded = floatround(divide);
-    
-    if(divide > rounded)
-    {
-        max_page = rounded + 1;
-    }
-    else
-    {
-        max_page = rounded;
-    }*/
 
     max_page = floatround(float(size) / float(MAX_INVENTORY_ITEMS_PER_PAGE), floatround_ceil);
 
-    printf("list_size: %d, MAX_INVENTORY_ITEMS_PER_PAGE: %d, max_page %d", size, MAX_INVENTORY_ITEMS_PER_PAGE, max_page);
     if(page <= 0)
     {
         page = (currentInventoryPage[playerid] > max_page) ? max_page : currentInventoryPage[playerid];
@@ -1544,7 +1532,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
                             if(result == -1)
                             {
                                 list_set_cell_safe(inventory, index, item_State, 0);
-                                Player_Msg(playerid, COLOR_RED, "> ERROR: Gan vat pham that bai, co the nhan vat cua ban da het slot de gan vat pham.");
+                                Player_Msg(playerid, COLOR_FADE3, "Gan vat pham that bai, co the nhan vat cua ban da het slot de gan vat pham.");
                             }
                             else
                             {
@@ -1552,14 +1540,11 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
                                 mysql_format(MySQL_GetHandle(), query, sizeof(query), "UPDATE inventory SET item_state = 2 WHERE ITEM_uuid = '%e' LIMIT 1", item[item_UUID]);
                                 mysql_tquery(MySQL_GetHandle(), query);
 
-                                printf("type: %d", task_await(Item_RetrieveType(item[item_Id])));
                                 if(task_await(Item_RetrieveType(item[item_Id])) == ITEM_TYPE_WEAPON)
                                 {
-                                    printf("number of uses: %d", item[item_Number_Of_Uses]);
                                     if(item[item_Number_Of_Uses] > 0)
                                     {
                                         new weapon_id = Utils_ModelToWeapon(task_await(Item_RetrieveModel(item[item_Id])));
-                                        printf("model: %d, weapon id: %d", task_await(Item_RetrieveModel(item[item_Id])), weapon_id);
                                         if(weapon_id != -1)
                                         {
                                             GivePlayerWeapon(playerid, weapon_id, item[item_Number_Of_Uses]);
@@ -1580,7 +1565,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
                             if(result == -1)
                             {
                                 list_set_cell_safe(inventory, index, item_State, 0);
-                                Player_Msg(playerid, COLOR_RED, "> ERROR: Gan vat pham that bai, co the nhan vat cua ban da het slot de gan vat pham.");
+                                Player_Msg(playerid, COLOR_FADE3, "Gan vat pham that bai, co the nhan vat cua ban da het slot de gan vat pham.");
                             }
                             else
                             {
@@ -1594,7 +1579,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
                         }
                         else
                         {
-                            Player_Msg(playerid, COLOR_RED, "> ERROR: Hai tay cua ban khong con trong.");
+                            Player_Msg(playerid, COLOR_FADE3, "Hai tay cua ban khong con trong.");
                         }
                     }
                     else
@@ -1611,6 +1596,13 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
                                     GetPlayerWeaponData(playerid, Utils_GetWeaponSlot(weapon_id), unused, ammo);
                                     
                                     ResetPlayerWeapons(playerid);
+
+                                    if(ammo != item[item_Number_Of_Uses])
+                                    {
+                                        new query[80 + 37];
+                                        mysql_format(MySQL_GetHandle(), query, sizeof(query), "UPDATE inventory SET item_number_of_uses = %d WHERE item_uuid = '%e' LIMIT 1", ammo, item[item_UUID]);
+                                        mysql_tquery(MySQL_GetHandle(), query);
+                                    }
 
                                     list_set_cell_safe(inventory, index, item_Number_Of_Uses, ammo);
                                 }
@@ -1688,7 +1680,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
                             }
                             else
                             {
-                                Player_Msg(playerid, COLOR_RED, "> ERROR: Vat pham dang nam ngoai tay, khong the an di.");
+                                Player_Msg(playerid, COLOR_FADE3, "Vat pham dang nam ngoai tay, khong the an di.");
                             }
                         }
                         else
@@ -1698,7 +1690,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 
                             if(result == -1)
                             {
-                                Player_Msg(playerid, COLOR_RED, "> ERROR: Nhan vat cua ban khong con attachment index trong, hay an mot vai item khac.");
+                                Player_Msg(playerid, COLOR_FADE3, "Nhan vat cua ban khong con attachment index trong, hay an mot vai item khac.");
                             }
                             else
                             {
@@ -1746,7 +1738,7 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
                         }
                         else
                         {
-                            Player_Msg(playerid, COLOR_RED, "> ERROR: Vat pham khong trong trang thai hien thi.");
+                            Player_Msg(playerid, COLOR_FADE3, "Vat pham khong trong trang thai hien thi.");
                         }
                     }
                 }
@@ -1779,15 +1771,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     return Inventory_Show(playerid, 0);
                 }
 
-                new bone;
-                if(listitem < 4)
-                {
-                    bone = listitem + 1;
-                }
-                else
-                {
-                    bone = listitem + 3;
-                }
+                new bone = (listitem < 4) ? listitem + 1 : listitem + 3;
 
                 new List:inventory = list_new(),
                     item[E_CHARACTER_INVENTORY_DATA],

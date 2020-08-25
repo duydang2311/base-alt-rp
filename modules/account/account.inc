@@ -64,10 +64,10 @@ forward Account_OnLogin(const playerid, const uuid[]);
 public Account_OnLogin(const playerid, const uuid[])
 {
     task_yield(1);
-    
+
     Account_SetUUID(playerid, uuid);
     await_arr(accountData[playerid][account_Name]) Account_RetrieveName(uuid);
-    
+
     Character_Show(playerid);
     return 1;
 }
@@ -82,7 +82,7 @@ hook OnGameModeInit()
         password VARCHAR(61) NOT NULL DEFAULT '',\
         created_date TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP\
     );", false);
-    
+
     for(new i = 0; i != MAX_PLAYERS; i++)
     {
         Account_Reset(i);

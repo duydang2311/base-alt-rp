@@ -64,15 +64,9 @@ Just clone this repository and use
 
 ## Usage
 
-Create a mysql connection with the following informations:
+Create a mysql connection which has the same password as [mysql.inc](https://github.com/duydang2311/base-alt-rp/blob/master/modules/mysql/mysql.inc#L31)
 
-- Database name: alt-rp
-
-- Password: 123456
-
-Or you can change those at [mysql.inc](https://github.com/duydang2311/base-alt-rp/blob/master/modules/mysql/mysql.inc)
-
-Then, imports the item's database (item.sql).
+Then, imports the item's database (item.sql), this should create a database and item table with all the data.
 
 ## Information
 
@@ -91,3 +85,7 @@ Systems:
 - Vehicle
 
 - Portal
+
+## Setup tutorial
+
+[Video](https://www.youtube.com/watch?v=pzIqcXfDKr0)

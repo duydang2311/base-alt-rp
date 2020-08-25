@@ -10,23 +10,23 @@ const MAX_CHARACTERS_PER_ACCOUNT = 3;
 #include <account>
 #include <character>
 #include <item>
-#include <player-cmd>
+#include <player-chat>
 #include <vehicle>
 #include <portal>
 #include <house>
+#include <house-furniture>
 
 main() {}
 
 #include <YSI_Coding\y_hooks>
-
 hook OnGameModeInit()
 {
     ManualVehicleEngineAndLights();
-	ShowPlayerMarkers(0);
-	DisableNameTagLOS();
-	DisableInteriorEnterExits();
-	AllowInteriorWeapons(1);
-	EnableStuntBonusForAll(0);
-	EnableVehicleFriendlyFire();
+    ShowPlayerMarkers(0);
+    DisableNameTagLOS();
+    DisableInteriorEnterExits();
+    AllowInteriorWeapons(1);
+    EnableStuntBonusForAll(0);
+    EnableVehicleFriendlyFire();
     return 1;
 }

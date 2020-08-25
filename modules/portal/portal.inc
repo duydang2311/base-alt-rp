@@ -37,6 +37,8 @@ static enum _:E_PORTAL_DATA
 
 static List:portals;
 
+forward bool:HousePortal_DestroyByPortalIdx(const index);
+
 stock Portal_Create()
 {
     new portal[E_PORTAL_DATA];
@@ -156,7 +158,7 @@ stock Portal_DestroyByIndex(const index)
     {
         if(portal[potl_Type] == PORTAL_TYPE_HOUSE)
         {
-            HousePortal_Destroy(index);
+            HousePortal_DestroyByPortalIdx(index);
         }
         else if(portal[potl_Type] == PORTAL_TYPE_BUSINESS)
         {
@@ -237,52 +239,6 @@ stock Portal_GetSize()
     return list_size(portals);
 }
 
-// retrieving and loading all portals from db
-stock Task:Portal_Initiate()
-{
-    new Task:t = task_new();
-    task_detach();
-    task_yield(t);
-
-    await mysql_aquery_s(MySQL_GetHandle(), str_new("SELECT * FROM portals"));
-
-    new rows = cache_num_rows();
-    if(rows > 0)
-    {
-        new portal[E_PORTAL_DATA],
-            index;
-        for(new i = 0; i != rows; i++)
-        {
-            cache_get_value_name(i, "uuid", portal[potl_UUID], UUID_LEN);
-
-            cache_get_value_name_int(i, "type", portal[potl_Type]);
-            cache_get_value_name_int(i, "locked", portal[potl_Locked]);
-            
-            cache_get_value_name_float(i, "entrance_pos_x", portal[potl_Entrance_Pos][0]);
-            cache_get_value_name_float(i, "entrance_pos_y", portal[potl_Entrance_Pos][1]);
-            cache_get_value_name_float(i, "entrance_pos_z", portal[potl_Entrance_Pos][2]);
-            cache_get_value_name_float(i, "entrance_angle", portal[potl_Entrance_Angle]);
-            cache_get_value_name_int(i, "entrance_interior", portal[potl_Entrance_Interior]);
-            cache_get_value_name_int(i, "entrance_world", portal[potl_Entrance_World]);
-
-            cache_get_value_name_float(i, "exit_pos_x", portal[potl_Exit_Pos][0]);
-            cache_get_value_name_float(i, "exit_pos_y", portal[potl_Exit_Pos][1]);
-            cache_get_value_name_float(i, "exit_pos_z", portal[potl_Exit_Pos][2]);
-            cache_get_value_name_float(i, "exit_angle", portal[potl_Exit_Angle]);
-            cache_get_value_name_int(i, "exit_interior", portal[potl_Exit_Interior]);
-            cache_get_value_name_int(i, "exit_world", portal[potl_Exit_World]);
-
-            index = list_add_arr(portals, portal);
-
-            Portal_SetEntrance(index, portal[potl_Entrance_Pos][0], portal[potl_Entrance_Pos][1], portal[potl_Entrance_Pos][2], portal[potl_Entrance_Angle], portal[potl_Entrance_Interior], portal[potl_Entrance_World]);
-
-            Portal_SetExit(index, portal[potl_Exit_Pos][0], portal[potl_Exit_Pos][1], portal[potl_Exit_Pos][2], portal[potl_Exit_Angle], portal[potl_Exit_Interior], portal[potl_Exit_World]);
-        }
-    }
-    task_set_result(t, rows);
-    return Task:0;
-}
-
 stock Portal_GetEntranceExtraId()
 {
     return PORTAL_ENTRANCE_EXTRA_ID;
@@ -335,6 +291,16 @@ stock Portal_StreamPlayerToEntrance(const playerid, const portal_index)
     new portal[E_PORTAL_DATA];
     if(list_get_arr_safe(portals, portal_index, portal))
     {
+        if(portal[potl_Entrance_Area] == 0)
+        {
+            return -1;
+        }
+        
+        if(portal[potl_Locked])
+        {
+            return -2;
+        }
+
         Player_StreamToPosition(playerid, portal[potl_Entrance_Pos][0], portal[potl_Entrance_Pos][1], portal[potl_Entrance_Pos][2], portal[potl_Entrance_Angle], portal[potl_Entrance_Interior], portal[potl_Entrance_World]);
         return 1;
     }
@@ -351,10 +317,30 @@ stock Portal_StreamPlayerToExit(const playerid, const portal_index)
     new portal[E_PORTAL_DATA];
     if(list_get_arr_safe(portals, portal_index, portal))
     {
+        if(portal[potl_Exit_Area] == 0)
+        {
+            return -1;
+        }
+        
+        if(portal[potl_Locked])
+        {
+            return -2;
+        }
         Player_StreamToPosition(playerid, portal[potl_Exit_Pos][0], portal[potl_Exit_Pos][1], portal[potl_Exit_Pos][2], portal[potl_Exit_Angle], portal[potl_Exit_Interior], portal[potl_Exit_World]);
         return 1;
     }
     return 0;
+}
+
+stock bool:Portal_SetType(const portal_index, const type)
+{
+    if(portal_index < 0 || portal_index >= list_size(portals))
+    {
+        return false;
+    }
+
+    list_set_cell(portals, portal_index, potl_Type, type);
+    return true;
 }
 
 #include "types\house_portal.inc"
@@ -384,45 +370,46 @@ hook OnGameModeInit()
 
     portals = list_new();
 
-    print("INFO: Loading portals");
-    task_yield(1);
-    await Portal_Initiate();
+    print("> Retrieving and initiating portals...");
+    
+    mysql_query(MySQL_GetHandle(), "SELECT * FROM portals", true);
+
+    new rows = cache_num_rows();
+    if(rows > 0)
+    {
+        new portal[E_PORTAL_DATA],
+            index;
+        for(new i = 0; i != rows; i++)
+        {
+            cache_get_value_name(i, "uuid", portal[potl_UUID], UUID_LEN);
+
+            cache_get_value_name_int(i, "type", portal[potl_Type]);
+            cache_get_value_name_int(i, "locked", portal[potl_Locked]);
+            
+            cache_get_value_name_float(i, "entrance_pos_x", portal[potl_Entrance_Pos][0]);
+            cache_get_value_name_float(i, "entrance_pos_y", portal[potl_Entrance_Pos][1]);
+            cache_get_value_name_float(i, "entrance_pos_z", portal[potl_Entrance_Pos][2]);
+            cache_get_value_name_float(i, "entrance_angle", portal[potl_Entrance_Angle]);
+            cache_get_value_name_int(i, "entrance_interior", portal[potl_Entrance_Interior]);
+            cache_get_value_name_int(i, "entrance_world", portal[potl_Entrance_World]);
+
+            cache_get_value_name_float(i, "exit_pos_x", portal[potl_Exit_Pos][0]);
+            cache_get_value_name_float(i, "exit_pos_y", portal[potl_Exit_Pos][1]);
+            cache_get_value_name_float(i, "exit_pos_z", portal[potl_Exit_Pos][2]);
+            cache_get_value_name_float(i, "exit_angle", portal[potl_Exit_Angle]);
+            cache_get_value_name_int(i, "exit_interior", portal[potl_Exit_Interior]);
+            cache_get_value_name_int(i, "exit_world", portal[potl_Exit_World]);
+
+            index = list_add_arr(portals, portal);
+
+            Portal_SetEntrance(index, portal[potl_Entrance_Pos][0], portal[potl_Entrance_Pos][1], portal[potl_Entrance_Pos][2], portal[potl_Entrance_Angle], portal[potl_Entrance_Interior], portal[potl_Entrance_World]);
+
+            Portal_SetExit(index, portal[potl_Exit_Pos][0], portal[potl_Exit_Pos][1], portal[potl_Exit_Pos][2], portal[potl_Exit_Angle], portal[potl_Exit_Interior], portal[potl_Exit_World]);
+        }
+    }
+
+    printf("> %d portals have been initiated succesfully", rows);
     
     print("INFO: ./modules/portal loaded");
-    return 1;
-}
-
-hook OnPlayerEnterDynArea(playerid, areaid)
-{
-    if(Streamer_GetIntData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID) == PORTAL_ENTRANCE_EXTRA_ID)
-    {
-        new portal[E_PORTAL_DATA];
-        for(new Iter:i = list_iter(portals); iter_inside(i); iter_move_next(i))
-        {
-            if(iter_get_arr_safe(i, portal))
-            {
-                if(portal[potl_Entrance_Area] == areaid)
-                {
-                    Player_Msg(playerid, COLOR_YELLOW, sprintf("> Info: You entered portal's entrance area (portal id %d)", iter_get_key(i)));
-                    return Y_HOOKS_BREAK_RETURN_1;
-                }
-            }
-        }
-    }
-    else if(Streamer_GetIntData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID) == PORTAL_EXIT_EXTRA_ID)
-    {
-        new portal[E_PORTAL_DATA];
-        for(new Iter:i = list_iter(portals); iter_inside(i); iter_move_next(i))
-        {
-            if(iter_get_arr_safe(i, portal))
-            {
-                if(portal[potl_Exit_Area] == areaid)
-                {
-                    Player_Msg(playerid, COLOR_YELLOW, sprintf("> Info: You entered portal's exit area (portal id %d)", iter_get_key(i)));
-                    return Y_HOOKS_BREAK_RETURN_1;
-                }
-            }
-        }
-    }
     return 1;
 }

@@ -27,7 +27,7 @@ public OnQueryError(errorid, const error[], const callback[], const query[], MyS
 #include <YSI_Coding\y_hooks>
 
 hook OnGameModeInit()
-{
+{    
     mysql_handle = mysql_connect("localhost", "root", "123456", "alt-rp");
     if(mysql_errno(mysql_handle) != 0 || mysql_handle == MYSQL_INVALID_HANDLE)
     {

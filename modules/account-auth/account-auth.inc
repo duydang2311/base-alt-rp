@@ -82,6 +82,11 @@ public OnAccountPasswordChecked(const playerid, const uuid[])
 {
     if(bcrypt_is_equal())
     {   
+        if(GetPVarType(playerid, "accountAuth_Timer"))
+        {
+            DeletePreciseTimer(GetPVarInt(playerid, "accountAuth_Timer"));
+        }
+
         CallLocalFunction("Account_OnLogin", "is", playerid, uuid);
     }
     else

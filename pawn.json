@@ -5,23 +5,32 @@
 	"output": "gamemodes/main.amx",
 	"dependencies": [
 		"sampctl/samp-stdlib",
-		"IllidanS4/PawnPlus:v1.2.1",
+		"IllidanS4/PawnPlus:v1.3.1",
 		"pawn-lang/YSI-Includes@5.x",
 		"pawn-lang/YSI-Includes",
 		"Open-GTO/zmessage:v3.2.1",
 		"pBlueG/SA-MP-MySQL:R41-4",
 		"Southclaws/pawn-uuid:1.0.1",
-		"lassir/bcrypt-samp:v2.2.4",
+		"lassir/bcrypt-samp:v2.2.3",
 		"maddinat0r/sscanf:v2.8.3",
-		"bmisiak/samp-precise-timers:v2.0.0",
-		"urShadow/Pawn.CMD:3.2.0",
+		"urShadow/Pawn.CMD:3.3.3",
 		"kristoisberg/samp-gps-plugin:1.4.0",
 		"IllidanS4/LFN:v1.0",
-		"samp-incognito/samp-streamer-plugin:v2.9.4"
+		"samp-incognito/samp-streamer-plugin:v2.9.4",
+		"bmisiak/samp-precise-timers:v2.0.2",
+		"duydang2311/async-fader",
+		"duydang2311/panel"
 	],
 	"local": true,
 	"build": {
 		"name": "",
+		"version": "3.10.10",
+		"args": [
+			"-d3",
+			"-;+",
+			"-(+",
+			"-Z+"
+		],
 		"includes": [
 			"libs",
 			"configs",
@@ -34,10 +43,11 @@
 			"modules/character-auth",
 			"modules/item",
 			"modules/inventory",
-			"modules/player-cmd",
+			"modules/player-chat",
 			"modules/vehicle",
 			"modules/portal",
-			"modules/house"
+			"modules/house",
+			"modules/house-furniture"
 		],
 		"constants": {
 			"MAX_PLAYERS": "100",
@@ -45,15 +55,82 @@
 			"YSI_NO_VERSION_CHECK": ""
 		}
 	},
+	"builds": [
+		{
+			"name": "prod",
+			"version": "3.10.10",
+			"args": [
+				"-O1",
+				"-d0",
+				"-;+",
+				"-(+",
+				"-Z+"
+			],
+			"includes": [
+				"libs",
+				"configs",
+				"utils",
+				"modules/mysql",
+				"modules/player",
+				"modules/account",
+				"modules/account-auth",
+				"modules/character",
+				"modules/character-auth",
+				"modules/item",
+				"modules/inventory",
+				"modules/player-chat",
+				"modules/vehicle",
+				"modules/portal",
+				"modules/house",
+				"modules/house-furniture"
+			],
+			"constants": {
+				"MAX_PLAYERS": "100",
+				"YSI_NO_OPTIMISATION_MESSAGE": "",
+				"YSI_NO_VERSION_CHECK": ""
+			}
+		},
+		{
+			"name": "dev",
+			"version": "3.10.10",
+			"args": [
+				"-d3",
+				"-;+",
+				"-(+",
+				"-Z+"
+			],
+			"includes": [
+				"libs",
+				"configs",
+				"utils",
+				"modules/mysql",
+				"modules/player",
+				"modules/account",
+				"modules/account-auth",
+				"modules/character",
+				"modules/character-auth",
+				"modules/item",
+				"modules/inventory",
+				"modules/player-chat",
+				"modules/vehicle",
+				"modules/portal",
+				"modules/house",
+				"modules/house-furniture"
+			],
+			"constants": {
+				"MAX_PLAYERS": "100",
+				"YSI_NO_OPTIMISATION_MESSAGE": "",
+				"YSI_NO_VERSION_CHECK": ""
+			}
+		}
+	],
 	"runtime": {
 		"version": "0.3.DL-R1",
 		"mode": "\u003cservermode\u003e",
 		"echo": "-",
-		"filterscripts": [
-			"ntd"
-		],
 		"plugins": [
-			"CTime"
+			"CTime",
+			"YSF_DL"
 		],
 		"rcon_password": "123danCkoi",
 		"port": 7777,

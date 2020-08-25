@@ -1,5 +1,4 @@
-static enum _:E_PERSONAL_VEHICLE_DATA
-{
+static enum _:E_PERSONAL_VEHICLE_DATA {
     pveh_Id,
     pveh_UUID[UUID_LEN],
     pveh_Owner_UUID[UUID_LEN]
@@ -10,8 +9,7 @@ static List:personalVehicles;
 forward bool:Vehicle_GetParam(const vehicleid, const param); // avoid using before definition warning
 forward bool:Vehicle_IsKeyInserted(const vehicleid); // avoid using before definition warning
 
-stock Task:PersonalVehicle_Create(const owner_uuid[], const model, const Float:x, const Float:y, const Float:z, const Float:rotation, const color1, const color2, const interior, const world, const respawn_delay, const addsiren = 0)
-{
+stock Task:PersonalVehicle_Create(const owner_uuid[], const model, const Float:x, const Float:y, const Float:z, const Float:rotation, const color1, const color2, const interior, const world, const respawn_delay, const addsiren = 0) {
     new Task:t = task_new();
     task_detach();
     task_yield(t);
@@ -21,18 +19,16 @@ stock Task:PersonalVehicle_Create(const owner_uuid[], const model, const Float:x
 
         new count = 0;
         cache_get_value_name_int(0, "COUNT(*)", count);
-        if(count == 0)
-        {
+        if(count == 0) {
             task_set_result(t, -1);
             return Task:0;
         }
     }
-    
+
     new vehicleid = Vehicle_Create(model, x, y, z, rotation, color1, color2, interior, world, respawn_delay, addsiren),
         index = -1;
-    
-    if(vehicleid != -1)
-    {
+
+    if(vehicleid != -1) {
         new vehicle[E_PERSONAL_VEHICLE_DATA],
             key[24],
             uuid[UUID_LEN];
@@ -42,10 +38,9 @@ stock Task:PersonalVehicle_Create(const owner_uuid[], const model, const Float:x
         Vehicle_SetType(vehicleid, VEHICLE_TYPE_PERSONAL);
         Vehicle_SetKey(vehicleid, key);
 
-        vehicle[pveh_Id] = vehicleid; 
+        vehicle[pveh_Id] = vehicleid;
         UUID(vehicle[pveh_UUID], UUID_LEN);
         strcopy(vehicle[pveh_Owner_UUID], owner_uuid, UUID_LEN);
-        
         index = list_add_arr(personalVehicles, vehicle);
 
         {
@@ -56,34 +51,27 @@ stock Task:PersonalVehicle_Create(const owner_uuid[], const model, const Float:x
 
         new playerid = Player_GetByCharacterUUID(owner_uuid);
 
-        if(playerid == -1)
-        {
+        if(playerid == -1) {
             new query[140 + 37 + 37 + 24 + 10];
-            for(new i = 0; i < 2; i++)
-            {
+            for (new i = 0; i < 2; i++) {
                 UUID(uuid, sizeof(uuid));
                 mysql_format(MySQL_GetHandle(), query, sizeof(query), "INSERT INTO inventory (item_uuid, item_id, item_amount, item_number_of_uses, item_key, character_uuid) VALUES ('%e', %d, %d, %d, '%e', '%e')", uuid, 44, 1, 1, key, owner_uuid);
                 mysql_tquery(MySQL_GetHandle(), query);
             }
-        }
-        else
-        {
+        } else {
             Inventory_Add(playerid, 44, 1, 1, key);
             Inventory_Add(playerid, 44, 1, 1, key);
-            
+
             new vehicle_name[17];
             Vehicle_GetNameById(vehicleid, vehicle_name, sizeof(vehicle_name));
-            Player_Msg(playerid, COLOR_GREEN, sprintf("> Info: Ban da nhan duoc hai chia khoa cho phuong tien '%s'.", vehicle_name));
+            Player_Msg(playerid, COLOR_GREEN, sprintf("> Info:Ban da nhan duoc hai chia khoa cho phuong tien '%s'.", vehicle_name));
         }
     }
-
     task_set_result(t, index);
-
     return Task:0;
 }
 
-stock Task:PersonalVehicle_Spawn(const uuid[])
-{
+stock Task:PersonalVehicle_Spawn(const uuid[]) {
     new Task:t = task_new();
     task_detach();
     task_yield(t);
@@ -91,8 +79,7 @@ stock Task:PersonalVehicle_Spawn(const uuid[])
     await mysql_aquery_s(MySQL_GetHandle(), str_format("SELECT * FROM personal_vehicles WHERE uuid = '%e' LIMIT 1", uuid));
 
     new rows = cache_num_rows();
-    if(rows > 0)
-    {
+    if(rows > 0) {
         new vehicle[E_PERSONAL_VEHICLE_DATA];
 
         new bool:key_inserted,
@@ -106,11 +93,11 @@ stock Task:PersonalVehicle_Spawn(const uuid[])
             Float:pos[4],
             interior,
             world;
-        
+
         strcopy(vehicle[pveh_UUID], uuid, UUID_LEN);
         cache_get_value_name(0, "owner_uuid", vehicle[pveh_Owner_UUID], UUID_LEN);
         cache_get_value_name(0, "vehicle_key", key, sizeof(key));
-        
+
         cache_get_value_name_int(0, "key_inserted", key_inserted);
         cache_get_value_name_int(0, "model", model);
         cache_get_value_name_int(0, "primary_color", primary_color);
@@ -137,8 +124,7 @@ stock Task:PersonalVehicle_Spawn(const uuid[])
 
         new vehicleid = Vehicle_Create(model, pos[0], pos[1], pos[2], pos[3], primary_color, secondary_color, interior, world, -1, siren);
 
-        if(vehicleid != -1)
-        {
+        if(vehicleid != -1) {
             vehicle[pveh_Id] = vehicleid;
 
             Vehicle_SetType(vehicleid, VEHICLE_TYPE_PERSONAL);
@@ -158,26 +144,21 @@ stock Task:PersonalVehicle_Spawn(const uuid[])
     return Task:0;
 }
 
-stock PersonalVehicle_Despawn(const vehicleid)
-{
+stock PersonalVehicle_Despawn(const vehicleid) {
     new vehicle[E_PERSONAL_VEHICLE_DATA];
-    for(new Iter:i = list_iter(personalVehicles); iter_inside(i); iter_move_next(i))
-    {
-        if(iter_get_arr_safe(i, vehicle))
-        {
-            if(vehicle[pveh_Id] == vehicleid)
-            {
+    for (new Iter:i = list_iter(personalVehicles); iter_inside(i); iter_move_next(i)) {
+        if(iter_get_arr_safe(i, vehicle)) {
+            if(vehicle[pveh_Id] == vehicleid) {
                 iter_erase_deep(i);
                 break;
             }
         }
     }
-    
+
     return Vehicle_Destroy(vehicleid);
 }
 
-stock Task:PersonalVehicle_CountByOwner(const owner_uuid[])
-{
+stock Task:PersonalVehicle_CountByOwner(const owner_uuid[]) {
     new Task:t = task_new();
     task_detach();
     task_yield(t);
@@ -187,20 +168,16 @@ stock Task:PersonalVehicle_CountByOwner(const owner_uuid[])
     new count = 0;
     cache_get_value_name_int(0, "COUNT(*)", count);
     task_set_result(t, count);
-    
+
     return Task:0;
 }
 
-stock PersonalVehicle_GetByUUID(const uuid[])
-{
+stock PersonalVehicle_GetByUUID(const uuid[]) {
     new vehicle[E_PERSONAL_VEHICLE_DATA];
-    for(new Iter:i = list_iter(personalVehicles); iter_inside(i); iter_move_next(i))
-    {
+    for (new Iter:i = list_iter(personalVehicles); iter_inside(i); iter_move_next(i)) {
         iter_get_arr(i, vehicle);
-        if(!isnull(vehicle[pveh_UUID]))
-        {
-            if(!strcmp(uuid, vehicle[pveh_UUID]))
-            {
+        if(!isnull(vehicle[pveh_UUID])) {
+            if(!strcmp(uuid, vehicle[pveh_UUID])) {
                 return vehicle[pveh_Id];
             }
         }
@@ -208,17 +185,12 @@ stock PersonalVehicle_GetByUUID(const uuid[])
     return 0;
 }
 
-stock PersonalVehicle_GetUUID(const vehicleid, uuid[], const size = UUID_LEN)
-{
-    if(IsValidVehicle(vehicleid))
-    {
+stock PersonalVehicle_GetUUID(const vehicleid, uuid[], const size = UUID_LEN) {
+    if(IsValidVehicle(vehicleid)) {
         new vehicle[E_PERSONAL_VEHICLE_DATA];
-        for(new Iter:i = list_iter(personalVehicles); iter_inside(i); iter_move_next(i))
-        {
-            if(iter_get_arr_safe(i, vehicle))
-            {
-                if(vehicle[pveh_Id] == vehicleid)
-                {
+        for (new Iter:i = list_iter(personalVehicles); iter_inside(i); iter_move_next(i)) {
+            if(iter_get_arr_safe(i, vehicle)) {
+                if(vehicle[pveh_Id] == vehicleid) {
                     uuid[0] = EOS;
                     strcat(uuid, vehicle[pveh_UUID], size);
                     break;
@@ -229,8 +201,7 @@ stock PersonalVehicle_GetUUID(const vehicleid, uuid[], const size = UUID_LEN)
     return 1;
 }
 
-stock Task:PersonalVehicle_SetParkingPos(const uuid[], const Float:x, const Float:y, const Float:z, const Float:angle, const interior, const world)
-{
+stock Task:PersonalVehicle_SetParkingPos(const uuid[], const Float:x, const Float:y, const Float:z, const Float:angle, const interior, const world) {
     new Task:t = task_new();
     task_detach();
     task_yield(t);
@@ -241,31 +212,28 @@ stock Task:PersonalVehicle_SetParkingPos(const uuid[], const Float:x, const Floa
     return Task:0;
 }
 
-stock Task:PersonalVehicle_Park(const vehicleid)
-{
+stock Task:PersonalVehicle_Park(const vehicleid) {
     /*
-    * Code Errors
-    * -1: failed to get vehicle's uuid (maybe vehicle's type is not personal vehicle)
-    * -2: row does not exist in db
-    * -3: vehicle is not in vehicle's bought parking place (not close to the pos, not in the same interior or not in the same world)
-    */
+     * Code Errors
+     * -1:failed to get vehicle's uuid (maybe vehicle's type is not personal vehicle)
+     * -2:row does not exist in db
+     * -3:vehicle is not in vehicle's bought parking place (not close to the pos, not in the same interior or not in the same world)
+     */
     new Task:t = task_new();
     task_detach();
     task_yield(t);
-    
+
     new uuid[UUID_LEN];
     PersonalVehicle_GetUUID(vehicleid, uuid, sizeof(uuid));
 
-    if(isnull(uuid))
-    {
-        task_set_result(t, -1); 
+    if(isnull(uuid)) {
+        task_set_result(t, -1);
         return Task:0;
     }
 
     await mysql_aquery_s(MySQL_GetHandle(), str_format("SELECT pos_x, pos_y, pos_z, interior, world FROM personal_vehicles WHERE uuid = '%e' LIMIT 1", uuid));
 
-    if(cache_num_rows() == 0)
-    {
+    if(cache_num_rows() == 0) {
         task_set_result(t, -2);
         return Task:0;
     }
@@ -280,8 +248,7 @@ stock Task:PersonalVehicle_Park(const vehicleid)
         cache_get_value_name_int(0, "interior", interior);
         cache_get_value_name_int(0, "world", world);
 
-        if((GetVehicleDistanceFromPoint(vehicleid, pos[0], pos[1], pos[2]) > 3.0) || Vehicle_GetInterior(vehicleid) != interior || Vehicle_GetWorld(vehicleid) != world)
-        {
+        if((GetVehicleDistanceFromPoint(vehicleid, pos[0], pos[1], pos[2]) > 3.0) || Vehicle_GetInterior(vehicleid) != interior || Vehicle_GetWorld(vehicleid) != world) {
             task_set_result(t, -3);
             return Task:0;
         }
@@ -303,9 +270,7 @@ stock Task:PersonalVehicle_Park(const vehicleid)
 }
 
 #include <YSI_Coding\y_hooks>
-
-hook OnGameModeInit()
-{
+hook OnGameModeInit() {
     mysql_query(MySQL_GetHandle(), "CREATE TABLE IF NOT EXISTS personal_vehicles (\
         owner_uuid VARCHAR(37) NOT NULL DEFAULT '',\
         uuid VARCHAR(37) NOT NULL PRIMARY KEY DEFAULT '',\
