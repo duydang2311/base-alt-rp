@@ -139,7 +139,7 @@ stock Vehicle_GetClosestVehicleId(const vehicleid, const Float:range)
         vehicle_id = 0,
         Float:pos[3];
 
-    GetPlayerPos(vehicleid, pos[0], pos[1], pos[2]);
+    GetVehiclePos(vehicleid, pos[0], pos[1], pos[2]);
 
     foreach(new i : Vehicle)
     {
