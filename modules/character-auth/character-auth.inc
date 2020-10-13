@@ -11,6 +11,7 @@
 #include <uuid>
 #include <bcrypt>
 
+#include <utils>
 #include <config-dialog-ids>
 
 #include <mysql>
@@ -285,46 +286,30 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                 ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_GENDER, DIALOG_STYLE_LIST, "Character | Sign Up | Gender", "{FFFFFF}Nam\nNu\n{333333}Chon mot gioi tinh", ">>", "<<");
             }
         }
-        case DIALOG_CHAR_SIGNUP_BIRTHDAY:
-        {
-            if(response)
-            {
-                new day,
-                    month,
-                    year;
-                if(sscanf(inputtext, "p<->ddd", day, month, year))
-                {
+        case DIALOG_CHAR_SIGNUP_BIRTHDAY: {
+            if(response) {
+                new day, month, year, day2, month2, year2;
+                getdate(year, month, day);
+
+                if(sscanf(inputtext, "p<->iii", day2, month2, year2)) {
                     Player_Msg(playerid, -1, MSG_PREFIX_ALT"Ngay thang nam sinh duoc nhap theo dinh dang: ngay-thang-nam (vi du: 03-01-2002).");
-                    ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_BIRTHDAY, DIALOG_STYLE_INPUT, "Character | Sign Up | Birthday", "{FFFFFF}Nhap ngay-thang-nam sinh cua nhan vat:", ">>", "<<");
-                    return 1;
+                    return ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_BIRTHDAY, DIALOG_STYLE_INPUT, "Character | Sign Up | Birthday", "{FFFFFF}Nhap ngay-thang-nam sinh cua nhan vat:", ">>", "<<");
                 }
 
-                if(day < 1 || day > 31)
-                {
-                    Player_Msg(playerid, -1, MSG_PREFIX_ALT"Ngay sinh gioi han tu 1-31.");
-                    ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_BIRTHDAY, DIALOG_STYLE_INPUT, "Character | Sign Up | Birthday", "{FFFFFF}Nhap ngay-thang-nam sinh cua nhan vat:", ">>", "<<");
-                    return 1;
-                }
-
-                if(month < 1 || month > 12)
-                {
-                    Player_Msg(playerid, -1, MSG_PREFIX_ALT"Thang sinh gioi han tu 1-12.");
-                    ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_BIRTHDAY, DIALOG_STYLE_INPUT, "Character | Sign Up | Birthday", "{FFFFFF}Nhap ngay-thang-nam sinh cua nhan vat:", ">>", "<<");
-                    return 1;
-                }
-
-                if(year < 1920 || day > 2005)
-                {
-                    Player_Msg(playerid, -1, MSG_PREFIX_ALT"Nam sinh gioi han tu 1920-2005.");
-                    ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_BIRTHDAY, DIALOG_STYLE_INPUT, "Character | Sign Up | Birthday", "{FFFFFF}Nhap ngay-thang-nam sinh cua nhan vat:", ">>", "<<");
-                    return 1;
+                new check = year - year2;
+                if(check > 50 || check < 15 || day2 > Utils_GetMonthDays(year2, month2) || day2 < 1 || month2 > 12 || month2 < 1) {
+                    Player_Msg(playerid, -1, MSG_PREFIX_ALT"Thong tin ma ban nhap vao khong hop le.");
+                    if(check > 50 || check < 15) Player_Msg(playerid, -1, sprintf(MSG_PREFIX_ALT"Nam sinh gioi han tu %d - %d.", year - 15, year - 50));
+                    if(month2 > 12 || month2 < 1) Player_Msg(playerid, -1, MSG_PREFIX_ALT"Thang sinh gioi han tu 1 - 12.");
+                    if(day2 > Utils_GetMonthDays(year2, month2) || day2 < 1) Player_Msg(playerid, -1, sprintf(MSG_PREFIX_ALT"Thang %02d co ngay gioi han tu 1 - %d.", Utils_GetMonthDays(year2, month2)));
+                    return ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_BIRTHDAY, DIALOG_STYLE_INPUT, "Character | Sign Up | Birthday", "{FFFFFF}Nhap ngay-thang-nam sinh cua nhan vat:", ">>", "<<");
                 }
 
                 new name[MAX_PLAYER_NAME + 1],
                     birthday[12],
                     string[180];
                 GetPVarString(playerid, "charSignUp_name", name, sizeof(name));
-                format(birthday, sizeof(birthday), "%d-%d-%d", day, month, year);
+                format(birthday, sizeof(birthday), "%02d-%02d-%d", day2, month2, year2);
                 SetPVarString(playerid, "charSignUp_birthday", birthday);
 
                 format(string, sizeof(string), "\n\
@@ -336,8 +321,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
                 ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_CONFIRM, DIALOG_STYLE_MSGBOX, "Character | Sign Up | Confirm", string, EMBED_COLOR_ALT"Xac nhan", EMBED_COLOR_ALT"<<");
             }
-            else
-            {
+            else {
                 DeletePVar(playerid, "charSignUp_Skin");
                 ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_SKIN, DIALOG_STYLE_INPUT, "Character | Sign Up | Skin", "{FFFFFF}Nhap ID skin cho nhan vat:", ">>", "<<");
             }
@@ -375,3 +359,4 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
     }
     return 1;
 }
+
