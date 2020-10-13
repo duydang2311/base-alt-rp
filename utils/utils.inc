@@ -167,3 +167,28 @@ stock Utils_RGBA(color, &rr, &gg, &bb, &aa) {
 stock Utils_Hex(&color, rr, gg, bb, aa) {
 	color = (aa & 0xFF) | ((bb & 0xFF) << 8) | ((gg & 0xFF) << 16) | (rr << 24);
 }
+
+stock Utils_GetMonthDays(year, month) {
+    switch(month) {
+        case 0:     return 31;
+        case 1:     return 31;
+        case 2:     return Utils_GetFebruaryDays(year);
+        case 3:     return 31;
+        case 4:     return 30;
+        case 5:     return 31;
+        case 6:     return 30;
+        case 7:     return 31;
+        case 8:     return 31;
+        case 9:     return 30;
+        case 10:    return 31;
+        case 11:    return 30;
+        case 12:    return 31;
+        default:    return -1;
+    }
+    return -1;
+}
+
+stock Utils_GetFebruaryDays(year) {
+    if(!(year % 4)) return 29;
+    else return 28;
+}
