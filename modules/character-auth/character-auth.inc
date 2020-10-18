@@ -226,6 +226,18 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
                     return 1;                    
                 }
 
+                new 
+                    count = 0;
+                
+                await mysql_aquery_s(MySQL_GetHandle(), str_format("SELECT COUNT(*) FROM accounts WHERE name = '%e' LIMIT 1", inputtext));
+                cache_get_value_name_int(0, "COUNT(*)", count);
+
+                if(count) {
+                    Player_Msg(playerid, -1, MSG_PREFIX_ALT"Ten nhan vat trung voi ten tai khoan.");
+                    ShowPlayerDialog(playerid, DIALOG_CHAR_SIGNUP_NAME, DIALOG_STYLE_INPUT, "Character | Sign Up | Name", "{FFFFFF}Nhap ho va ten (hoac nhap ca ten dem neu co) cho nhan vat [cu phap: Ho_Ten, do dai: 31 ki tu]:", ">>", "<<");
+                    return 1;                    
+                }
+
                 if(!Character_IsValidName(inputtext, strlen(inputtext)))
                 {
                     Player_Msg(playerid, -1, MSG_PREFIX_ALT"Ho va ten khong hop le.");
