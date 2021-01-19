@@ -28,7 +28,7 @@ Happy Pawning!
 
 ## Installation
 
-- Install [sampctl](https://github.com/Southclaws/sampctl
+- Install [sampctl](https://github.com/Southclaws/sampctl)
 
 - Clone this repo, inside the repo, run: `sampctl p ensure && sampctl p build`
 
