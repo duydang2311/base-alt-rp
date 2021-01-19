@@ -28,45 +28,11 @@ Happy Pawning!
 
 ## Installation
 
-Just clone this repository and use
+- Install [sampctl](https://github.com/Southclaws/sampctl
 
-[sampctl](https://github.com/Southclaws/sampctl) is recommended. Without [sampctl](https://github.com/Southclaws/sampctl), you have to change the paths to the modules in the gamemode
+- Clone this repo, inside the repo, run: `sampctl p ensure && sampctl p build`
 
-## Dependencies
-
-- sampctl/samp-stdlib
-
-- IllidanS4/PawnPlus:v1.2.1
-
-- pawn-lang/YSI-Includes@5.x
-
-- pawn-lang/YSI-Includes
-
-- Open-GTO/zmessage:v3.2.1
-
-- pBlueG/SA-MP-MySQL:R41-4
-
-- Southclaws/pawn-uuid:1.0.1
-
-- lassir/bcrypt-samp:v2.2.4
-
-- maddinat0r/sscanf:v2.8.3
-
-- bmisiak/samp-precise-timers:v2.0.0
-
-- urShadow/Pawn.CMD:3.2.0
-
-- kristoisberg/samp-gps-plugin:1.4.0
-
-- IllidanS4/LFN:v1.0
-
-- samp-incognito/samp-streamer-plugin:v2.9.4
-
-## Usage
-
-Create a mysql connection which has the same password as [mysql.inc](https://github.com/duydang2311/base-alt-rp/blob/master/modules/mysql/mysql.inc#L31)
-
-Then, imports the item's database (item.sql), this should create a database and item table with all the data.
+- Done, remember to config the mysql connection before `sampctl p run` to run the gamemode.
 
 ## Information
 
@@ -85,7 +51,3 @@ Systems:
 - Vehicle
 
 - Portal
-
-## Setup tutorial
-
-[Video](https://www.youtube.com/watch?v=pzIqcXfDKr0)
