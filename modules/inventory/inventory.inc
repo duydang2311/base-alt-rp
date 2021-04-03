@@ -218,14 +218,134 @@ stock Task:Inventory_RemoveByIndex(const playerid, const index)
     return Task:0;
 }
 
-stock Inventory_Show(const playerid, page = 0)
+stock Inventory_Textdraw(const playerid)
 {
-    new List:inventory = list_new();
-    if(!map_get_safe(characterInventories, playerid, inventory))
+    if(TD_Inventory_Items[playerid][0] == PlayerText:INVALID_TEXT_DRAW)
     {
-        return 0;
+        
+        TD_Inventory_Items[playerid][0] = CreatePlayerTextDraw(playerid, 374.000000, 164.000000, "Preview_Model");
+        PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][0], 5);
+        PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][0], 0.600000, 2.000000);
+        PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][0], 70.000000, 70.000000);
+        PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][0], 0);
+        PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][0], 0);
+        PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][0], 1);
+        PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][0], -1);
+        PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][0], 125);
+        PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][0], 255);
+        PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][0], 0);
+        PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][0], 1);
+        PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][0], 1);
+        PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][0], 0);
+        PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][0], -10.000000, 0.000000, -20.000000, 1.000000);
+        PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][0], 1, 1);
+
     }
-    
+
+    if(TD_Inventory_Items[playerid][1] == PlayerText:INVALID_TEXT_DRAW)
+    {
+        
+        TD_Inventory_Items[playerid][1] = CreatePlayerTextDraw(playerid, 446.000000, 164.000000, "Preview_Model");
+        PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][1], 5);
+        PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][1], 0.600000, 2.000000);
+        PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][1], 70.000000, 70.000000);
+        PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][1], 0);
+        PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][1], 0);
+        PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][1], 1);
+        PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][1], -1);
+        PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][1], 125);
+        PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][1], 255);
+        PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][1], 0);
+        PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][1], 1);
+        PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][1], 1);
+        PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][1], 0);
+        PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][1], -10.000000, 0.000000, -20.000000, 1.000000);
+        PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][1], 1, 1);
+
+    }
+
+    if(TD_Inventory_Items[playerid][2] == PlayerText:INVALID_TEXT_DRAW)
+    {
+        
+        TD_Inventory_Items[playerid][2] = CreatePlayerTextDraw(playerid, 374.000000, 237.000000, "Preview_Model");
+        PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][2], 5);
+        PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][2], 0.600000, 2.000000);
+        PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][2], 70.000000, 70.000000);
+        PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][2], 0);
+        PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][2], 0);
+        PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][2], 1);
+        PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][2], -1);
+        PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][2], 125);
+        PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][2], 255);
+        PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][2], 0);
+        PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][2], 1);
+        PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][2], 1);
+        PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][2], 0);
+        PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][2], -10.000000, 0.000000, -20.000000, 1.000000);
+        PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][2], 1, 1);
+
+    }
+    if(TD_Inventory_Items[playerid][3] == PlayerText:INVALID_TEXT_DRAW)
+    {
+        TD_Inventory_Items[playerid][3] = CreatePlayerTextDraw(playerid, 446.000000, 237.000000, "Preview_Model");
+        PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][3], 5);
+        PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][3], 0.600000, 2.000000);
+        PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][3], 70.000000, 70.000000);
+        PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][3], 0);
+        PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][3], 0);
+        PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][3], 1);
+        PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][3], -1);
+        PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][3], 125);
+        PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][3], 255);
+        PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][3], 0);
+        PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][3], 1);
+        PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][3], 1);
+        PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][3], 0);
+        PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][3], -10.000000, 0.000000, -20.000000, 1.000000);
+        PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][3], 1, 1);
+
+    }
+
+    if(TD_Inventory_Items[playerid][4] == PlayerText:INVALID_TEXT_DRAW)
+    {
+        TD_Inventory_Items[playerid][4] = CreatePlayerTextDraw(playerid, 374.000000, 310.000000, "Preview_Model");
+        PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][4], 5);
+        PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][4], 0.600000, 2.000000);
+        PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][4], 70.000000, 70.000000);
+        PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][4], 0);
+        PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][4], 0);
+        PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][4], 1);
+        PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][4], -1);
+        PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][4], 125);
+        PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][4], 255);
+        PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][4], 0);
+        PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][4], 1);
+        PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][4], 1);
+        PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][4], 0);
+        PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][4], -10.000000, 0.000000, -20.000000, 1.000000);
+        PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][4], 1, 1);
+    }
+
+    if(TD_Inventory_Items[playerid][5] == PlayerText:INVALID_TEXT_DRAW)
+    {
+        TD_Inventory_Items[playerid][5] = CreatePlayerTextDraw(playerid, 446.000000, 310.000000, "Preview_Model");
+        PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][5], 5);
+        PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][5], 0.600000, 2.000000);
+        PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][5], 70.000000, 70.000000);
+        PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][5], 0);
+        PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][5], 0);
+        PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][5], 1);
+        PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][5], -1);
+        PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][5], 125);
+        PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][5], 255);
+        PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][5], 0);
+        PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][5], 1);
+        PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][5], 1);
+        PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][5], 0);
+        PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][5], -10.000000, 0.000000, -20.000000, 1.000000);
+        PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][5], 1, 1);
+    }
+
     if(TD_Inventory_Container[playerid] == PlayerText:INVALID_TEXT_DRAW)
     {
         TD_Inventory_Container[playerid] = CreatePlayerTextDraw(playerid, 375.000000, 165.000000, "_");
@@ -294,6 +414,17 @@ stock Inventory_Show(const playerid, page = 0)
         PlayerTextDrawSetSelectable(playerid, TD_Inventory_Next_Page[playerid], 1);
     }
 
+    return 1;
+}
+
+stock Inventory_Show(const playerid, page = 0)
+{
+    new List:inventory = list_new();
+    if(!map_get_safe(characterInventories, playerid, inventory))
+    {
+        return 0;
+    }
+
     new max_page,
         size = list_size(inventory),
         item_models[MAX_INVENTORY_ITEMS_PER_PAGE] = {0, ...},
@@ -312,6 +443,8 @@ stock Inventory_Show(const playerid, page = 0)
         page = (page > max_page) ? max_page : currentInventoryPage[playerid];
     }
 
+    Inventory_Textdraw(playerid);
+
     format(text_page, sizeof(text_page), "%02d/%02d", page, max_page);
 
     new Iter:i = list_iter(inventory, (page - 1) * MAX_INVENTORY_ITEMS_PER_PAGE);
@@ -328,232 +461,17 @@ stock Inventory_Show(const playerid, page = 0)
     }
     iter_delete(i);
 
-    if(TD_Inventory_Items[playerid][0] == PlayerText:INVALID_TEXT_DRAW)
+    for(new s = 0; s < MAX_INVENTORY_ITEMS_PER_PAGE; s++)
     {
-        if(0 < index)
+        if(s < index)
         {
-            TD_Inventory_Items[playerid][0] = CreatePlayerTextDraw(playerid, 374.000000, 164.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][0], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][0], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][0], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][0], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][0], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][0], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][0], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][0], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][0], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][0], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][0], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][0], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][0], item_models[0]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][0], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][0], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][0]);
-        }
-    }
-    else
-    {
-        if(0 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][0], item_models[0]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][0]);
+            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][s], item_models[s]);
+            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][s]);
         }
         else
         {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][0]);
-            TD_Inventory_Items[playerid][0] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-    if(TD_Inventory_Items[playerid][1] == PlayerText:INVALID_TEXT_DRAW)
-    {
-        if(1 < index)
-        {
-            TD_Inventory_Items[playerid][1] = CreatePlayerTextDraw(playerid, 446.000000, 164.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][1], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][1], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][1], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][1], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][1], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][1], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][1], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][1], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][1], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][1], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][1], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][1], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][1], item_models[1]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][1], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][1], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][1]);
-        }
-    }
-    else
-    {
-        if(1 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][1], item_models[1]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][1]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][1]);
-            TD_Inventory_Items[playerid][1] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-    if(TD_Inventory_Items[playerid][2] == PlayerText:INVALID_TEXT_DRAW)
-    {
-        if(2 < index)
-        {
-            TD_Inventory_Items[playerid][2] = CreatePlayerTextDraw(playerid, 374.000000, 237.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][2], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][2], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][2], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][2], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][2], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][2], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][2], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][2], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][2], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][2], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][2], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][2], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][2], item_models[2]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][2], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][2], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][2]);
-        }
-    }
-    else
-    {
-        if(2 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][2], item_models[2]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][2]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][2]);
-            TD_Inventory_Items[playerid][2] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-    if(TD_Inventory_Items[playerid][3] == PlayerText:INVALID_TEXT_DRAW && 3 < index)
-    {
-        if(3 < index)
-        {
-            TD_Inventory_Items[playerid][3] = CreatePlayerTextDraw(playerid, 446.000000, 237.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][3], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][3], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][3], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][3], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][3], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][3], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][3], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][3], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][3], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][3], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][3], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][3], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][3], item_models[3]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][3], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][3], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][3]);
-        }
-    }
-    else
-    {
-        if(3 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][3], item_models[3]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][3]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][3]);
-            TD_Inventory_Items[playerid][3] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-    if(TD_Inventory_Items[playerid][4] == PlayerText:INVALID_TEXT_DRAW && 4 < index)
-    {
-        if(4 < index)
-        {
-            TD_Inventory_Items[playerid][4] = CreatePlayerTextDraw(playerid, 374.000000, 310.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][4], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][4], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][4], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][4], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][4], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][4], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][4], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][4], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][4], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][4], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][4], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][4], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][4], item_models[4]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][4], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][4], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][4]);
-        }
-    }
-    else
-    {
-        if(4 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][4], item_models[4]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][4]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][4]);
-            TD_Inventory_Items[playerid][4] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-
-    if(TD_Inventory_Items[playerid][5] == PlayerText:INVALID_TEXT_DRAW && 5 < index)
-    {
-        if(5 < index)
-        {
-            TD_Inventory_Items[playerid][5] = CreatePlayerTextDraw(playerid, 446.000000, 310.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][5], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][5], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][5], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][5], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][5], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][5], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][5], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][5], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][5], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][5], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][5], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][5], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][5], item_models[5]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][5], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][5], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][5]);
-        }
-    }
-    else
-    {
-        if(5 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][5], item_models[5]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][5]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][5]);
-            TD_Inventory_Items[playerid][5] = PlayerText:INVALID_TEXT_DRAW;
+            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][s]);
+            TD_Inventory_Items[playerid][s] = PlayerText:INVALID_TEXT_DRAW;
         }
     }
 
@@ -577,6 +495,8 @@ stock Inventory_Show(const playerid, page = 0)
     {
         PlayerTextDrawSetString(playerid, TD_Inventory_Page[playerid], text_page);
     }
+
+    
 
     PlayerTextDrawShow(playerid, TD_Inventory_Container[playerid]);
     PlayerTextDrawShow(playerid, TD_Inventory_Page_Container[playerid]);
@@ -616,6 +536,8 @@ stock Inventory_SwitchPage(const playerid, page)
         }
     }
 
+    Inventory_Textdraw(playerid);
+
     new max_page = floatround(float(list_size(inventory)) / floatround(MAX_INVENTORY_ITEMS_PER_PAGE), floatround_ceil),
         item_models[MAX_INVENTORY_ITEMS_PER_PAGE] = {0, ...},
         items[E_CHARACTER_INVENTORY_DATA],
@@ -642,232 +564,17 @@ stock Inventory_SwitchPage(const playerid, page)
     iter_delete(i);
 
     printf("switchpage - index %d", index);
-    if(TD_Inventory_Items[playerid][0] == PlayerText:INVALID_TEXT_DRAW)
+    for(new s = 0; s < MAX_INVENTORY_ITEMS_PER_PAGE; s++)
     {
-        if(0 < index)
+        if(s < index)
         {
-            TD_Inventory_Items[playerid][0] = CreatePlayerTextDraw(playerid, 374.000000, 164.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][0], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][0], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][0], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][0], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][0], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][0], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][0], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][0], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][0], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][0], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][0], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][0], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][0], item_models[0]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][0], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][0], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][0]);
-        }
-    }
-    else
-    {
-        if(0 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][0], item_models[0]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][0]);
+            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][s], item_models[s]);
+            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][s]);
         }
         else
         {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][0]);
-            TD_Inventory_Items[playerid][0] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-    if(TD_Inventory_Items[playerid][1] == PlayerText:INVALID_TEXT_DRAW)
-    {
-        if(1 < index)
-        {
-            TD_Inventory_Items[playerid][1] = CreatePlayerTextDraw(playerid, 446.000000, 164.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][1], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][1], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][1], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][1], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][1], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][1], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][1], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][1], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][1], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][1], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][1], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][1], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][1], item_models[1]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][1], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][1], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][1]);
-        }
-    }
-    else
-    {
-        if(1 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][1], item_models[1]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][1]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][1]);
-            TD_Inventory_Items[playerid][1] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-    if(TD_Inventory_Items[playerid][2] == PlayerText:INVALID_TEXT_DRAW)
-    {
-        if(2 < index)
-        {
-            TD_Inventory_Items[playerid][2] = CreatePlayerTextDraw(playerid, 374.000000, 237.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][2], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][2], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][2], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][2], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][2], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][2], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][2], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][2], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][2], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][2], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][2], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][2], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][2], item_models[2]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][2], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][2], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][2]);
-        }
-    }
-    else
-    {
-        if(2 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][2], item_models[2]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][2]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][2]);
-            TD_Inventory_Items[playerid][2] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-    if(TD_Inventory_Items[playerid][3] == PlayerText:INVALID_TEXT_DRAW && 3 < index)
-    {
-        if(3 < index)
-        {
-            TD_Inventory_Items[playerid][3] = CreatePlayerTextDraw(playerid, 446.000000, 237.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][3], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][3], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][3], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][3], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][3], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][3], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][3], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][3], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][3], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][3], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][3], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][3], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][3], item_models[3]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][3], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][3], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][3]);
-        }
-    }
-    else
-    {
-        if(3 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][3], item_models[3]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][3]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][3]);
-            TD_Inventory_Items[playerid][3] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-    if(TD_Inventory_Items[playerid][4] == PlayerText:INVALID_TEXT_DRAW && 4 < index)
-    {
-        if(4 < index)
-        {
-            TD_Inventory_Items[playerid][4] = CreatePlayerTextDraw(playerid, 374.000000, 310.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][4], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][4], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][4], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][4], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][4], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][4], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][4], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][4], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][4], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][4], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][4], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][4], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][4], item_models[4]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][4], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][4], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][4]);
-        }
-    }
-    else
-    {
-        if(4 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][4], item_models[4]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][4]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][4]);
-            TD_Inventory_Items[playerid][4] = PlayerText:INVALID_TEXT_DRAW;
-        }
-    }
-
-
-    if(TD_Inventory_Items[playerid][5] == PlayerText:INVALID_TEXT_DRAW && 5 < index)
-    {
-        if(5 < index)
-        {
-            TD_Inventory_Items[playerid][5] = CreatePlayerTextDraw(playerid, 446.000000, 310.000000, "Preview_Model");
-            PlayerTextDrawFont(playerid, TD_Inventory_Items[playerid][5], 5);
-            PlayerTextDrawLetterSize(playerid, TD_Inventory_Items[playerid][5], 0.600000, 2.000000);
-            PlayerTextDrawTextSize(playerid, TD_Inventory_Items[playerid][5], 70.000000, 70.000000);
-            PlayerTextDrawSetOutline(playerid, TD_Inventory_Items[playerid][5], 0);
-            PlayerTextDrawSetShadow(playerid, TD_Inventory_Items[playerid][5], 0);
-            PlayerTextDrawAlignment(playerid, TD_Inventory_Items[playerid][5], 1);
-            PlayerTextDrawColor(playerid, TD_Inventory_Items[playerid][5], -1);
-            PlayerTextDrawBackgroundColor(playerid, TD_Inventory_Items[playerid][5], 125);
-            PlayerTextDrawBoxColor(playerid, TD_Inventory_Items[playerid][5], 255);
-            PlayerTextDrawUseBox(playerid, TD_Inventory_Items[playerid][5], 0);
-            PlayerTextDrawSetProportional(playerid, TD_Inventory_Items[playerid][5], 1);
-            PlayerTextDrawSetSelectable(playerid, TD_Inventory_Items[playerid][5], 1);
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][5], item_models[5]);
-            PlayerTextDrawSetPreviewRot(playerid, TD_Inventory_Items[playerid][5], -10.000000, 0.000000, -20.000000, 1.000000);
-            PlayerTextDrawSetPreviewVehCol(playerid, TD_Inventory_Items[playerid][5], 1, 1);
-
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][5]);
-        }
-    }
-    else
-    {
-        if(5 < index)
-        {
-            PlayerTextDrawSetPreviewModel(playerid, TD_Inventory_Items[playerid][5], item_models[5]);
-            PlayerTextDrawShow(playerid, TD_Inventory_Items[playerid][5]);
-        }   
-        else
-        {
-            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][5]);
-            TD_Inventory_Items[playerid][5] = PlayerText:INVALID_TEXT_DRAW;
+            PlayerTextDrawDestroy(playerid, TD_Inventory_Items[playerid][s]);
+            TD_Inventory_Items[playerid][s] = PlayerText:INVALID_TEXT_DRAW;
         }
     }
 
