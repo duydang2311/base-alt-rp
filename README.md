@@ -2,6 +2,8 @@
 
 [![sampctl](https://img.shields.io/badge/sampctl-alt--rp-2f2f2f.svg?style=for-the-badge)](https://github.com/duydang2311/alt-rp)
 
+At when I was working on this base, I could not write best practice code (many of them could have been written better), but at least it should work and show the ideas.
+
 <!--
 Short description of your library, why it's useful, some examples, pictures or
 videos. Link to your forum release thread too.
