@@ -1,3 +1,5 @@
+## *I recommend you to check out my [newer RP gamemode](https://github.com/duydang2311/suckless-rp) instead, rewritten from scratch.*
+
 # alt-rp
 
 [![sampctl](https://img.shields.io/badge/sampctl-alt--rp-2f2f2f.svg?style=for-the-badge)](https://github.com/duydang2311/alt-rp)
